@@ -3,6 +3,10 @@
 <link rel="import" href="../polymer/lib/mixins/gesture-event-listeners.html">
 
 <link rel="import" href="../neon-animation/web-animations.html">
+
+<link rel="import" href="../iron-icon/iron-icon.html">
+<link rel="import" href="../iron-icons/iron-icons.html">
+
 <link rel="import" href="../paper-button/paper-button.html">
 <link rel="import" href="../paper-dropdown-menu/paper-dropdown-menu.html">
 <link rel="import" href="../paper-item/paper-item.html">
@@ -50,7 +54,6 @@
                 align-items: center;
         -webkit-box-pack: justify;
             -ms-flex-pack: justify;
-                justify-content: space-between;
         padding: 4px;
         -webkit-box-flex: 1;
             -ms-flex: 1;
@@ -62,6 +65,10 @@
         display: -webkit-box;
         display: -ms-flexbox;
         display: flex;
+        -webkit-box-align: center;
+            -ms-flex-align: center;
+                align-items: center;
+        height: 56px;
       }
 
       .label {
@@ -81,6 +88,9 @@
         display: -webkit-box;
         display: -ms-flexbox;
         display: flex;
+        -webkit-box-pack: justify;
+            -ms-flex-pack: justify;
+                justify-content: space-between;
         -webkit-box-orient: vertical;
         -webkit-box-direction: normal;
             -ms-flex-direction: column;
@@ -97,6 +107,54 @@
         display: -webkit-box;
         display: -ms-flexbox;
         display: flex;
+        overflow: hidden;
+        -webkit-box-align: center;
+            -ms-flex-align: center;
+                align-items: center;
+      }
+
+      .topbar {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+      }
+
+      .spacer {
+        -webkit-box-flex: 1;
+            -ms-flex: 1;
+                flex: 1;
+      }
+
+      #show {
+        -webkit-transform: rotate(0deg);
+            -ms-transform: rotate(0deg);
+                transform: rotate(0deg);
+        -webkit-transition: transform 0.6s;
+        -webkit-transition: -webkit-transform 0.6s;
+        transition: -webkit-transform 0.6s;
+        -o-transition: transform 0.6s;
+        transition: transform 0.6s;
+        transition: transform 0.6s, -webkit-transform 0.6s;
+      }
+
+      #show.opened {
+        -webkit-transform: rotate(180deg);
+            -ms-transform: rotate(180deg);
+                transform: rotate(180deg);
+      }
+
+      .collapsedLabel {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-flex: 1;
+            -ms-flex: 1;
+                flex: 1;
+      }
+
+      #collapser {
+        padding: 2px;
+        overflow: hidden;
       }
 
       [hidden] {
@@ -111,17 +169,31 @@
       }
 
       paper-slider {
-        --paper-slider-knob-color: #ccff00;
-        --paper-slider-active-color: #ccff00;
+        --paper-slider-knob-color: var(--accent-color);
+        --paper-slider-active-color: var(--accent-color);
         --paper-slider-input: {width: 64px}
       }
 
       paper-toggle-button {
-        --paper-toggle-button-checked-bar-color: #ccff00;
-        --paper-toggle-button-checked-button-color: #ccff00;
-        --paper-toggle-button-checked-ink-color: #ccff00;
+        --paper-toggle-button-checked-bar-color: var(--accent-color);
+        --paper-toggle-button-checked-button-color: var(--accent-color);
+        --paper-toggle-button-checked-ink-color: var(--accent-color);
       }
     </style>
+
+    <div class="controls">
+      <div class="topbar">
+          <div class="spacer"></div>
+          <div>
+          <paper-button id="collapser" on-tap="_collapse">
+            [[collapseLabel]]
+            <iron-icon
+              id="show"
+              icon="icons:expand-more"
+              class$="{{_isOpenClass(collapse)}}"></iron-icon>
+          </paper-button>
+          </div>
+      </div>
 
     <div class="container">
 
@@ -156,7 +228,7 @@
 
       <div hidden$="[[collapse]]" class="static">
         <div class="parameter stretch">
-            <div class="label">Voxel Interpolation</div>
+            <div class="label">3D interpolation</div>
             <paper-toggle-button checked="{{interpolation}}"></paper-toggle-button>
         </div>
 
@@ -166,14 +238,13 @@
         </div>
       </div>
 
-      <div class="static">
-        <div class="stretch">
-            <paper-button on-tap="_collapse">show/hide</paper-button>
-        </div>
-        <div hidden$="[[collapse]]" class="stretch">
+      <div hidden$="[[collapse]]" class="static">
+        <div class="parameter stretch">
             <paper-button on-tap="_resetStackHelper">reset</paper-button>
         </div>
       </div>
+    </div>
+
     </div>
 
   </template>
@@ -197,6 +268,11 @@
             type: Boolean,
             value: true,
             notify: true,
+            observer: '_collapseChanged',
+          },
+          collapseLabel: {
+            type: String,
+            value: '',
           },
           index: {
             type: Number,
@@ -253,6 +329,30 @@
 
       _collapse() {
         this.set('collapse', !this.collapse);
+      }
+
+      _collapseChanged(collapse) {
+        if(collapse === undefined) {
+          return;
+        }
+        
+        let label = 'open';
+        if(!collapse) {
+          label = 'close';
+        }
+
+        this.collapseLabel = label;
+      }
+
+      /**
+       * Set classname for opened button
+       *
+       * @param {Boolean} opened
+       *
+       * @return {*}
+       */
+      _isOpenClass(collapsed) {
+        return collapsed ? '' : 'opened';
       }
     }
     window.customElements.define(ControlPanel2D.is, ControlPanel2D);
