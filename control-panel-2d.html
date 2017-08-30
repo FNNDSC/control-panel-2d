@@ -277,12 +277,14 @@
                 <paper-item>Heart</paper-item>
               </paper-listbox>
             </paper-dropdown-menu>
-            <paper-dropdown-menu label="Color LUT">
+            <paper-dropdown-menu label="Color LUT" selected-item-label="{{colorLut}}">
               <paper-listbox slot="dropdown-content" selected="0">
-                <paper-item>Default</paper-item>
-                <paper-item>Spectrum</paper-item>
-                <paper-item>Heat</paper-item>
-                <paper-item>Red</paper-item>
+                <paper-item label="Default">Default</paper-item>
+                <paper-item label="Spectrum">Spectrum</paper-item>
+                <paper-item label="Hot and Cold">Hot and Cold</paper-item>
+                <paper-item label="Gold">Gold</paper-item>
+                <paper-item label="Random">Random</paper-item>
+                <paper-item label="Walking Dead"> Walking Dead</paper-item>
               </paper-listbox>
             </paper-dropdown-menu>
           </div>
@@ -292,12 +294,12 @@
 
       <div hidden$="[[collapse]]" class="expand">
           <div class="values vertical">
-            <paper-dropdown-menu label="Orientation">
+            <paper-dropdown-menu label="Orientation" selected-item-label="{{orientation}}">
               <paper-listbox slot="dropdown-content" selected="0">
-                <paper-item>Acquisition</paper-item>
-                <paper-item>Axial</paper-item>
-                <paper-item>Coronal</paper-item>
-                <paper-item>Sagittal</paper-item>
+                <paper-item label="Default">Default</paper-item>
+                <paper-item label="Axial">Axial</paper-item>
+                <paper-item label="Coronal">Coronal</paper-item>
+                <paper-item label="Sagittal">Sagittal</paper-item>
               </paper-listbox>
             </paper-dropdown-menu>
           </div>
@@ -336,7 +338,7 @@
           },
           orientation: {
             type: String,
-            value: 'default',
+            value: 'Default',
             notify: true,
           },
           windowLevel: {
@@ -344,7 +346,7 @@
             value: 'default',
             notify: true,
           },
-          colorLUT: {
+          colorLut: {
             type: String,
             value: 'default',
             notify: true,
