@@ -230,28 +230,7 @@
           <div class="label">Layout</div>
       </div>
 
-      <div hidden$="[[collapse]]" class="expand">
-          <div class="values">
-            <iron-selector selected="{{annotations}}">
-              <paper-icon-button class="bigger" icon="editor:border-clear"></paper-icon-button>
-              <paper-icon-button class="bigger" icon="editor:border-inner"></paper-icon-button>
-              <paper-icon-button class="bigger" icon="editor:border-outer"></paper-icon-button>
-            </iron-selector>
-          </div>
-          <div class="spacer"></div>
-          <div class="label">Annotations</div>
-      </div>
-
-      <!-- <div hidden$="[[collapse]]" class="expand">
-          <div class="values">
-              <paper-button>None</paper-button>
-              <paper-button>Basix</paper-button>
-              <paper-button>Full</paper-button>
-          </div>
-          <div class="label">Annotations</div>
-      </div> -->
-
-      <div hidden$="[[collapse]]" class="expand controls">
+      <!-- <div hidden$="[[collapse]]" class="expand controls">
           <div class="values">
             <iron-selector attr-for-selected="name" selected="{{controls}}">
               <paper-button name="default"><iron-icon icon="communication:call-made"></iron-icon>default</paper-button>
@@ -261,11 +240,10 @@
               <paper-button name="zoom"><iron-icon icon="icons:search"></iron-icon>zoom</paper-button>
               <paper-button name="nav"><iron-icon icon="device:location-searching"></iron-icon>navigation</paper-button>
             </iron-selector>
-            <!-- <paper-button>WIDGET</paper-button> -->
           </div>
           <div class="spacer"></div>
           <div class="label">Controls</div>
-      </div>
+      </div> -->
 
       <div hidden$="[[collapse]]" class="expand">
           <div class="values vertical">
@@ -354,11 +332,6 @@
           layout: {
             type: Number,
             value: 0,
-            notify: true,
-          },
-          annotations: {
-            type: Number,
-            value: 2,
             notify: true,
           },
           controls: {
