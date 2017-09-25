@@ -55,8 +55,9 @@
       .expand {
         display: flex;
         flex-direction: column;
-        flex: 1;
-        padding: 4px;
+        /* flex: 1; */
+        /* padding: 4px; */
+        padding: 4px 16px;
         border-right: 1px solid var(--divider-color);
     /* flex: 1; */
         /* display: -webkit-box;
@@ -94,8 +95,9 @@
 
       .values {
         display: flex;
-        flex-wrap: wrap;
+        /* flex-wrap: wrap; */
         justify-content: center;
+        flex: 0;
         /* flex: 1; */
       }
 
@@ -174,18 +176,6 @@
         width: auto;
       }
 
-      paper-slider {
-        --paper-slider-knob-color: var(--accent-color);
-        --paper-slider-active-color: var(--accent-color);
-        --paper-slider-input: {width: 64px}
-      }
-
-      paper-toggle-button {
-        --paper-toggle-button-checked-bar-color: var(--accent-color);
-        --paper-toggle-button-checked-button-color: var(--accent-color);
-        --paper-toggle-button-checked-ink-color: var(--accent-color);
-      }
-
       .close {
         flex: 0;
         padding: 0;
@@ -198,6 +188,7 @@
 
       iron-selector {
         text-align: center;
+        display: flex;
       }
 
       iron-selector > div {
@@ -209,6 +200,10 @@
       }
       .controls paper-button iron-icon {
         margin-right: 4px;
+      }
+
+      .spacer {
+        flex: 1;
       }
 
     </style>
@@ -230,63 +225,18 @@
           <div class="label">Layout</div>
       </div>
 
-      <!-- <div hidden$="[[collapse]]" class="expand controls">
-          <div class="values">
-            <iron-selector attr-for-selected="name" selected="{{controls}}">
-              <paper-button name="default"><iron-icon icon="communication:call-made"></iron-icon>default</paper-button>
-              <paper-button name="wl"><iron-icon icon="image:brightness-6"></iron-icon>wl</paper-button>
-              <paper-button name="pan"><iron-icon icon="icons:pan-tool"></iron-icon>pan</paper-button>
-              <paper-button name="scroll"><iron-icon icon="image:dehaze"></iron-icon>scroll</paper-button>
-              <paper-button name="zoom"><iron-icon icon="icons:search"></iron-icon>zoom</paper-button>
-              <paper-button name="nav"><iron-icon icon="device:location-searching"></iron-icon>navigation</paper-button>
-            </iron-selector>
-          </div>
-          <div class="spacer"></div>
-          <div class="label">Controls</div>
-      </div> -->
-
       <div hidden$="[[collapse]]" class="expand">
-          <div class="values vertical">
-            <paper-dropdown-menu label="Window Level">
-              <paper-listbox slot="dropdown-content" selected="0">
-                <paper-item>Default</paper-item>
-                <paper-item>Manual</paper-item>
-                <paper-item>Brain</paper-item>
-                <paper-item>Heart</paper-item>
-              </paper-listbox>
-            </paper-dropdown-menu>
-            <paper-dropdown-menu label="Color LUT" selected-item-label="{{colorLut}}">
-              <paper-listbox slot="dropdown-content" selected="0">
-                <paper-item label="Default">Default</paper-item>
-                <paper-item label="Spectrum">Spectrum</paper-item>
-                <paper-item label="Hot and Cold">Hot and Cold</paper-item>
-                <paper-item label="Gold">Gold</paper-item>
-                <paper-item label="Random">Random</paper-item>
-                <paper-item label="Walking Dead"> Walking Dead</paper-item>
-              </paper-listbox>
-            </paper-dropdown-menu>
-          </div>
-          <div class="spacer"></div>
-          <div class="label">Appearance</div>
+        <div class="values">
+          <paper-icon-button icon="icons:fullscreen" icon$="{{_isTheaterMode(theaterMode)}}" on-tap="_theaterMode"></paper-icon-button>
+        </div>
+        <div class="spacer"></div>
+        <div class="label">Theater mode</div>
       </div>
 
-      <div hidden$="[[collapse]]" class="expand">
-          <div class="values vertical">
-            <paper-dropdown-menu label="Orientation" selected-item-label="{{orientation}}">
-              <paper-listbox slot="dropdown-content" selected="0">
-                <paper-item label="Default">Default</paper-item>
-                <paper-item label="Axial">Axial</paper-item>
-                <paper-item label="Coronal">Coronal</paper-item>
-                <paper-item label="Sagittal">Sagittal</paper-item>
-              </paper-listbox>
-            </paper-dropdown-menu>
-          </div>
-          <div class="spacer"></div>
-          <div class="label">Orientation</div>
-      </div>
+      <div class="spacer"></div>
 
       <div class="close expand">
-        <paper-icon-button id="show" icon$="{{_isOpenClass(collapse)}}" on-tap="_collapse">
+        <paper-icon-button id="show" icon$="{{_isCollapsed(collapse)}}" on-tap="_collapse">
         </paper-icon-button>
         <div class="spacer"></div>
       </div>
@@ -314,29 +264,14 @@
             value: true,
             notify: true,
           },
-          orientation: {
-            type: String,
-            value: 'Default',
-            notify: true,
-          },
-          windowLevel: {
-            type: String,
-            value: 'default',
-            notify: true,
-          },
-          colorLut: {
-            type: String,
-            value: 'default',
-            notify: true,
-          },
           layout: {
             type: Number,
             value: 0,
             notify: true,
           },
-          controls: {
-            type: String,
-            value: 'default',
+          theaterMode: {
+            type: Boolean,
+            value: false,
             notify: true,
           },
         };
@@ -353,8 +288,16 @@
        *
        * @return {*}
        */
-      _isOpenClass(collapsed) {
-        return collapsed ? 'icons:expand-more' : 'icons:close';
+      _isCollapsed(collapsed) {
+        return collapsed ? 'icons:expand-more' : 'icons:expand-less';
+      }
+
+      _theaterMode() {
+        this.set('theaterMode', !this.theaterMode);
+      }
+
+      _isTheaterMode(theaterMode) {
+        return theaterMode ? 'icons:fullscreen-exit' : 'icons:fullscreen';
       }
     }
     window.customElements.define(ControlPanel2D.is, ControlPanel2D);
