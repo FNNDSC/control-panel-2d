@@ -202,10 +202,6 @@
         margin-right: 4px;
       }
 
-      .spacer {
-        flex: 1;
-      }
-
     </style>
 
     <div class="container">
@@ -227,7 +223,7 @@
 
       <div hidden$="[[collapse]]" class="expand">
         <div class="values">
-          <paper-icon-button icon="icons:fullscreen" icon$="{{_isTheaterMode(theaterMode)}}" on-tap="_theaterMode"></paper-icon-button>
+          <paper-icon-button class$="{{_isTheaterModeSelected(theaterMode)}}" icon$="{{_isTheaterMode(theaterMode)}}" on-tap="_theaterMode"></paper-icon-button>
         </div>
         <div class="spacer"></div>
         <div class="label">Theater mode</div>
@@ -298,6 +294,10 @@
 
       _isTheaterMode(theaterMode) {
         return theaterMode ? 'icons:fullscreen-exit' : 'icons:fullscreen';
+      }
+
+      _isTheaterModeSelected(theaterMode) {
+        return theaterMode ? 'iron-selected' : '';
       }
     }
     window.customElements.define(ControlPanel2D.is, ControlPanel2D);
